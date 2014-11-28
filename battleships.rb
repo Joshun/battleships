@@ -14,6 +14,16 @@ def print_coloured(str, colour)
 	puts str.colorize(colour)
 end
 
+def mapsymbol_to_string(msymbol)
+	case msymbol
+		when :water
+			return "w"
+		when :ship
+			return "s"
+		else
+			return " "
+	end
+end
 
 def draw_map(array, border_colour)
 
@@ -31,7 +41,7 @@ def draw_map(array, border_colour)
 				print row.to_s.colorize(border_colour) + " "
 			end
 			# Print left border (0-9)
-			print array[row][column].to_s + " "
+			print mapsymbol_to_string(array[row][column]) + " "
 		end
 		puts
 	end
@@ -39,7 +49,7 @@ end
 
 def main()
 	puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
-	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, :w) }
+	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, :water) }
 	
 	draw_map(battleGrid, :red)
 		
