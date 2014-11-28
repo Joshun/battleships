@@ -15,27 +15,33 @@ def print_coloured(str, colour)
 end
 
 
-def draw_map(array)
+def draw_map(array, border_colour)
+
+	# Print top border (0-9)
+	print "  "
+	(0..9).each do |num|
+		print num.to_s.colorize(border_colour) + " "
+	end
+	puts
+
+	# Print array contents
 	for row in 0..(array.length - 1)
-		if row == 0
-			puts "  0 1 2 3 4 5 6 7 8 9".colorize(:red)
-		end
-		
 		for column in 0..(array[row].length - 1)
 			if column == 0
-				print row.to_s.colorize(:red) + " "
+				print row.to_s.colorize(border_colour) + " "
 			end
-			print array[row][column] + " "
+			# Print left border (0-9)
+			print array[row][column].to_s + " "
 		end
-		puts ""
+		puts
 	end
 end
 
 def main()
 	puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
-	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, "w") }
+	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, :w) }
 	
-	draw_map(battleGrid)
+	draw_map(battleGrid, :red)
 		
 end
 
