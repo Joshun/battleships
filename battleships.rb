@@ -17,6 +17,16 @@ def print_coloured(str, colour)
 	puts str.colorize(colour)
 end
 
+def check_valid_position(xcoord, ycoord)
+	if xcoord > GRID_SIZE || xcoord < 0
+		return false
+	else if ycoord > GRID_SIZE || ycoord < 0
+		return false
+	else
+		return true
+	end
+end
+
 def mapsymbol_to_string(msymbol)
 	case msymbol
 		when :water
