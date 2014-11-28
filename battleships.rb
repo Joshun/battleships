@@ -10,7 +10,7 @@ require "colorize"
 
 GRID_SIZE = 10
 
-# Types of ships [ ship_name: [number, size] ]
+# Types of ships [ ship_name: [quantity, size] ]
 SHIP_TYPES = [ aircraft_carrier: [1, 5], cruiser: [1, 4], destroyer: [2, 3], submarine: [1, 2] ]
 
 def print_coloured(str, colour)
