@@ -20,7 +20,7 @@ end
 def check_valid_position(xcoord, ycoord)
 	if xcoord > GRID_SIZE || xcoord < 0
 		return false
-	else if ycoord > GRID_SIZE || ycoord < 0
+	elsif ycoord > GRID_SIZE || ycoord < 0
 		return false
 	else
 		return true
@@ -30,9 +30,9 @@ end
 def mapsymbol_to_string(msymbol)
 	case msymbol
 		when :water
-			return "w"
+			return "w".colorize(:background => :light_blue)
 		when :ship
-			return "s"
+			return "s".colorize(:background => :red)
 		else
 			return " "
 	end
@@ -54,7 +54,11 @@ def draw_map(array, border_colour)
 				print row.to_s.colorize(border_colour) + " "
 			end
 			# Print left border (0-9)
-			print mapsymbol_to_string(array[row][column]) + " "
+			if array[row][column][:known]
+				print mapsymbol_to_string(array[row][column][:tile]) + " "
+			else
+				print "*"
+			end
 		end
 		puts
 	end
@@ -62,7 +66,9 @@ end
 
 def main()
 	puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
-	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, :water) }
+	# Create new array to store battleships
+	# Each array element is a hash with a tile value (water or ship) and a known value (true or false)
+	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, {:tile=>:water, :known=>false} ) }
 	
 	draw_map(battleGrid, :red)
 		
