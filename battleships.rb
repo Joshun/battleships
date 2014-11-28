@@ -57,7 +57,7 @@ def draw_map(array, border_colour)
 			if array[row][column][:known]
 				print mapsymbol_to_string(array[row][column][:tile]) + " "
 			else
-				print "*"
+				print "* "
 			end
 		end
 		puts
@@ -70,7 +70,7 @@ def main()
 	# Each array element is a hash with a tile value (water or ship) and a known value (true or false)
 	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, {:tile=>:water, :known=>false} ) }
 	
-	draw_map(battleGrid, :red)
+	draw_map(battleGrid, :green)
 		
 end
 
