@@ -100,7 +100,7 @@ def check_clear_row(grid, row, start_column, size)
 	end_column = start_column + size - 1
 
 	(start_column..end_column).each do |index|
-		if grid[row][index][:tile] != :water
+		if grid[index][row][:tile] != :water
 			return false
 		end
 	end
@@ -111,13 +111,20 @@ def check_clear_column(grid, column, start_row, size)
 	end_row = start_row + size - 1
 
 	(start_row..end_row).each do |index|
-		if grid[index][column][:tile] != :water
+		if grid[column][index][:tile] != :water
 			return false
 		end
 	end
 	return true
 end
 
+def scrap_all(grid)
+	grid.each do |i|
+		i.each do |j|
+			j[:tile] = :water
+		end
+	end
+end
 
 def arrange_ships(ships, grid)
 	ships.each do |ship_type|
@@ -128,16 +135,23 @@ def arrange_ships(ships, grid)
 		(0..ship_quantity - 1).each do |ship|
 			direction = horizontal_or_vertical
 			if direction == :horizontal
-				begin
-					coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
-					puts coordinates
-				end until check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size)
+				coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
+				puts coordinates
+				if( ! check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size) )
+					scrap_all(grid)
+					arrange_ships(ships, grid)
+					return
+				end
 				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
+				add_horizontal_ship(grid, coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
 			elsif direction == :vertical
-				begin
-					coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
-					puts coordinates
-				end until check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size)
+				coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
+				puts coordinates
+				if( ! check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size) )
+					scrap_all(grid)
+					arrange_ships(ships, grid)
+					return
+				end
 				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
 
 			end
@@ -146,6 +160,18 @@ def arrange_ships(ships, grid)
 	end
 end
 
+def add_horizontal_ship(grid, start_x, end_x, row)
+	puts start_x
+	(start_x..end_x).each do |column|
+		grid[column][row][:tile] = :ship
+	end
+end
+def copy_ships(source, dest)
+	last_ships = Array.new
+	ships.each do |item|
+		last_ships.push(item)
+	end
+end
 
 def main()
 	puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
@@ -154,7 +180,7 @@ def main()
 	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, {:tile=>:water, :known=>true} ) }
 	
 	
-	ships = [];
+	ships = []
 	ships.push(Ship.new("aircraft_carrier", 1, 5))
 	ships.push(Ship.new("cruiser", 1, 4))
 	ships.push(Ship.new("destroyer", 2, 3))
