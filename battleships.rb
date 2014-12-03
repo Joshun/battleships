@@ -13,17 +13,30 @@ GRID_SIZE = 10
 # Types of ships [ ship_name: [quantity, size] ]
 SHIP_TYPES = [ aircraft_carrier: [1, 5], cruiser: [1, 4], destroyer: [2, 3], submarine: [1, 2] ]
 
+#~ class Ship
+	#~ def initialize(type, quantity, size)
+		#~ @type = type
+		#~ @quantity = quantity
+		#~ @size = size
+	#~ end
+	#~ def get_type
+		#~ return @type
+	#~ end
+	#~ def get_quantity
+		#~ return @quantity
+	#~ end
+	#~ def get_size
+		#~ return @size
+	#~ end
+#~ end
+
 class Ship
-	def initialize(type, quantity, size)
+	def initialize(type, size)
 		@type = type
-		@quantity = quantity
 		@size = size
 	end
 	def get_type
 		return @type
-	end
-	def get_quantity
-		return @quantity
 	end
 	def get_size
 		return @size
@@ -127,35 +140,32 @@ def scrap_all(grid)
 end
 
 def arrange_ships(ships, grid, old_grid)
-	ships.each do |ship_type|
-		ship_name = ship_type.get_type
-		ship_quantity = ship_type.get_quantity
-		ship_size = ship_type.get_size
+	ships.each do |ship|
+		ship_name = ship.get_type
+		ship_size = ship.get_size
 		
-		(0..ship_quantity - 1).each do |ship|
-			direction = horizontal_or_vertical
-			if direction == :horizontal
+		direction = horizontal_or_vertical
+		if direction == :horizontal
+			coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
+			puts coordinates
+			while( ! check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size) )
+				copy_array(old_grid, grid)
 				coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
-				puts coordinates
-				while( ! check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size) )
-					copy_array(old_grid, grid)
-					coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
-				end
-				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
-				add_horizontal_ship(grid, coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
-			elsif direction == :vertical
-				coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
-				puts coordinates
-				while( ! check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size) )
-					copy_array(old_grid, grid)
-					coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
-				end
-				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
-				add_vertical_ship(grid, coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
 			end
-			copy_array(grid, old_grid)
-			
+			puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
+			add_horizontal_ship(grid, coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
+		elsif direction == :vertical
+			coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
+			puts coordinates
+			while( ! check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size) )
+				copy_array(old_grid, grid)
+				coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
+			end
+			puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
+			add_vertical_ship(grid, coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
 		end
+		copy_array(grid, old_grid)
+			
 	end
 end
 
@@ -186,10 +196,11 @@ def main()
 	battleGridOld = copy_array(battleGrid, battleGridOld)	
 	
 	ships = []
-	ships.push(Ship.new("aircraft_carrier", 1, 5))
-	ships.push(Ship.new("cruiser", 1, 4))
-	ships.push(Ship.new("destroyer", 2, 3))
-	ships.push(Ship.new("submarine", 1, 2))
+	ships.push(Ship.new("aircraft_carrier", 5))
+	ships.push(Ship.new("cruiser", 4))
+	ships.push(Ship.new("destroyer", 3))
+	ships.push(Ship.new("destroyer", 3))
+	ships.push(Ship.new("submarine", 2))
 	
 	copy_array(battleGrid, battleGridOld)
 	
