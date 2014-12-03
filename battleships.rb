@@ -93,13 +93,14 @@ def get_random_coordinates(x_max, y_max)
 	x_coord = rand(0..x_max)
 	y_coord = rand(0..y_max)
 	
-	return [x_coord, y_coord]
+	return { x: x_coord, y: y_coord }
 end
 
 def check_clear_row(grid, row, start_column, size)
 	end_column = start_column + size - 1
 
 	(start_column..end_column).each do |index|
+		puts "hello"
 		if grid[row][index][:tile] != :water
 			return false
 		end
@@ -119,7 +120,8 @@ def check_clear_column(grid, column, start_row, size)
 	return true
 end
 
-def arrange_ships(ships)
+
+def arrange_ships(ships, grid)
 	ships.each do |ship_type|
 		ship_name = ship_type.get_type
 		ship_quantity = ship_type.get_quantity
@@ -127,6 +129,20 @@ def arrange_ships(ships)
 		
 		(0..ship_quantity - 1).each do |ship|
 			direction = horizontal_or_vertical
+			if direction == :horizontal
+				begin
+					coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
+					puts coordinates
+				end until check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size)
+				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
+			elsif direction == :vertical
+				begin
+					coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
+					puts coordinates
+				end until check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size)
+				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
+
+			end
 			
 		end
 	end
@@ -137,16 +153,19 @@ def main()
 	puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
 	# Create new array to store battleships
 	# Each array element is a hash with a tile value (water or ship) and a known value (true or false)
-	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, {:tile=>:water, :known=>false} ) }
+	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, {:tile=>:water, :known=>true} ) }
 	
-	draw_map(battleGrid, :green)
 	
 	ships = [];
 	ships.push(Ship.new("aircraft_carrier", 1, 5))
 	ships.push(Ship.new("cruiser", 1, 4))
 	ships.push(Ship.new("destroyer", 2, 3))
 	ships.push(Ship.new("submarines", 1, 2))
-	arrange_ships(ships)
+	arrange_ships(ships, battleGrid)
+	
+	draw_map(battleGrid, :green)
+
+	
 		
 end
 
