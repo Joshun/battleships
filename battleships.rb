@@ -89,7 +89,12 @@ def horizontal_or_vertical()
 	end
 end
 
-
+def get_random_coordinates(x_max, y_max)
+	x_coord = rand(0..x_max)
+	y_coord = rand(0..y_max)
+	
+	return [x_coord, y_coord]
+end
 
 def check_clear_row(grid, row, start_column, size)
 	end_column = start_column + size - 1
