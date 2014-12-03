@@ -126,7 +126,7 @@ def scrap_all(grid)
 	end
 end
 
-def arrange_ships(ships, grid)
+def arrange_ships(ships, grid, old_grid)
 	ships.each do |ship_type|
 		ship_name = ship_type.get_type
 		ship_quantity = ship_type.get_quantity
@@ -137,39 +137,44 @@ def arrange_ships(ships, grid)
 			if direction == :horizontal
 				coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
 				puts coordinates
-				if( ! check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size) )
-					scrap_all(grid)
-					arrange_ships(ships, grid)
-					return
+				while( ! check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size) )
+					copy_array(old_grid, grid)
+					coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
 				end
 				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
 				add_horizontal_ship(grid, coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
 			elsif direction == :vertical
 				coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
 				puts coordinates
-				if( ! check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size) )
-					scrap_all(grid)
-					arrange_ships(ships, grid)
-					return
+				while( ! check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size) )
+					copy_array(old_grid, grid)
+					coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
 				end
 				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
-
+				add_vertical_ship(grid, coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
 			end
+			copy_array(grid, old_grid)
 			
 		end
 	end
 end
 
 def add_horizontal_ship(grid, start_x, end_x, row)
-	puts start_x
 	(start_x..end_x).each do |column|
 		grid[column][row][:tile] = :ship
 	end
 end
-def copy_ships(source, dest)
-	last_ships = Array.new
-	ships.each do |item|
-		last_ships.push(item)
+
+def add_vertical_ship(grid, start_y, end_y, column)
+	(start_y..end_y).each do |row|
+		grid[column][row][:tile] = :ship
+	end
+end
+
+def copy_array(source, dest)
+	dest = Array.new
+	source.each do |item|
+		dest.push(item)
 	end
 end
 
@@ -178,14 +183,17 @@ def main()
 	# Create new array to store battleships
 	# Each array element is a hash with a tile value (water or ship) and a known value (true or false)
 	battleGrid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, {:tile=>:water, :known=>true} ) }
-	
+	battleGridOld = copy_array(battleGrid, battleGridOld)	
 	
 	ships = []
 	ships.push(Ship.new("aircraft_carrier", 1, 5))
 	ships.push(Ship.new("cruiser", 1, 4))
 	ships.push(Ship.new("destroyer", 2, 3))
 	ships.push(Ship.new("submarine", 1, 2))
-	arrange_ships(ships, battleGrid)
+	
+	copy_array(battleGrid, battleGridOld)
+	
+	arrange_ships(ships, battleGrid, battleGridOld)
 	
 	draw_map(battleGrid, :green)
 
