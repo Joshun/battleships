@@ -100,7 +100,6 @@ def check_clear_row(grid, row, start_column, size)
 	end_column = start_column + size - 1
 
 	(start_column..end_column).each do |index|
-		puts "hello"
 		if grid[row][index][:tile] != :water
 			return false
 		end
@@ -112,7 +111,6 @@ def check_clear_column(grid, column, start_row, size)
 	end_row = start_row + size - 1
 
 	(start_row..end_row).each do |index|
-		puts "hello"
 		if grid[index][column][:tile] != :water
 			return false
 		end
@@ -147,7 +145,7 @@ def arrange_ships(ships, grid)
 		end
 	end
 end
-	
+
 
 def main()
 	puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
@@ -160,7 +158,7 @@ def main()
 	ships.push(Ship.new("aircraft_carrier", 1, 5))
 	ships.push(Ship.new("cruiser", 1, 4))
 	ships.push(Ship.new("destroyer", 2, 3))
-	ships.push(Ship.new("submarines", 1, 2))
+	ships.push(Ship.new("submarine", 1, 2))
 	arrange_ships(ships, battleGrid)
 	
 	draw_map(battleGrid, :green)
