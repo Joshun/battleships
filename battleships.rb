@@ -72,7 +72,7 @@ def draw_map(array, border_colour)
 
 	# Print top border (0-9)
 	print "  "
-	(0..9).each do |num|
+	(0..GRID_SIZE - 1).each do |num|
 		print num.to_s.colorize(border_colour) + " "
 	end
 	puts
@@ -111,8 +111,10 @@ end
 
 def check_clear_row(grid, row, start_column, size)
 	end_column = start_column + size - 1
-
+	i = 0
 	(start_column..end_column).each do |index|
+		puts i
+		i += 1
 		if grid[index][row][:tile] != :water
 			return false
 		end
@@ -122,8 +124,10 @@ end
 
 def check_clear_column(grid, column, start_row, size)
 	end_row = start_row + size - 1
-
+	i = 0
 	(start_row..end_row).each do |index|
+		puts i
+		i += 1
 		if grid[column][index][:tile] != :water
 			return false
 		end
@@ -148,25 +152,26 @@ def arrange_ships(ships, grid, old_grid)
 		if direction == :horizontal
 			coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
 			puts coordinates
-			while( ! check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size) )
-				copy_array(old_grid, grid)
-				coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
+			if( ! check_clear_row(grid, coordinates[:y], coordinates[:x], ship_size) )
+				#copy_array(old_grid, grid)
+				return false
 			end
 			puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
 			add_horizontal_ship(grid, coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
 		elsif direction == :vertical
 			coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
 			puts coordinates
-			while( ! check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size) )
-				copy_array(old_grid, grid)
-				coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
+			if( ! check_clear_column(grid, coordinates[:x], coordinates[:y], ship_size) )
+				#copy_array(old_grid, grid)
+				return false
 			end
 			puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
 			add_vertical_ship(grid, coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
 		end
-		copy_array(grid, old_grid)
+		#copy_array(grid, old_grid)
 			
 	end
+	return true
 end
 
 def add_horizontal_ship(grid, start_x, end_x, row)
@@ -204,7 +209,10 @@ def main()
 	
 	copy_array(battleGrid, battleGridOld)
 	
-	arrange_ships(ships, battleGrid, battleGridOld)
+	while (! arrange_ships(ships, battleGrid, battleGridOld) )
+		scrap_all(battleGrid)
+		arrange_ships(ships, battleGrid, battleGridOld)
+	end
 	
 	draw_map(battleGrid, :green)
 
