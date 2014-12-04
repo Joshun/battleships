@@ -84,8 +84,8 @@ def draw_map(array, border_colour)
 				print row.to_s.colorize(border_colour) + " "
 			end
 			# Print left border (0-9)
-			if array[row][column][:known]
-				print mapsymbol_to_string(array[row][column][:tile]) + " "
+			if array[column][row][:known]
+				print mapsymbol_to_string(array[column][row][:tile]) + " "
 			else
 				print "* "
 			end
