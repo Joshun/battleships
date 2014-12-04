@@ -201,17 +201,16 @@ def main()
 	battleGridOld = copy_array(battleGrid, battleGridOld)	
 	
 	ships = []
-	ships.push(Ship.new("aircraft_carrier", 5))
-	ships.push(Ship.new("cruiser", 4))
-	ships.push(Ship.new("destroyer", 3))
-	ships.push(Ship.new("destroyer", 3))
+	#ships.push(Ship.new("aircraft_carrier", 5))
+	#ships.push(Ship.new("cruiser", 4))
+	#ships.push(Ship.new("destroyer", 3))
+	#ships.push(Ship.new("destroyer", 3))
 	ships.push(Ship.new("submarine", 2))
 	
 	copy_array(battleGrid, battleGridOld)
 	
 	while (! arrange_ships(ships, battleGrid, battleGridOld) )
 		scrap_all(battleGrid)
-		arrange_ships(ships, battleGrid, battleGridOld)
 	end
 	
 	draw_map(battleGrid, :green)
