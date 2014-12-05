@@ -46,7 +46,7 @@ end
 class Tile
 	def initialize()
 		@type = :water
-		@known = false
+		@known = true
 	end
 	def makeKnown()
 		@known = true
@@ -54,12 +54,18 @@ class Tile
 	def setType(type)
 		@type = type
 	end
+	def getType()
+		return @type
+	end
+	def isKnown()
+		return @known
+	end
 end
 
 class Board
 	def initialize(size)
 		@size = size
-		@tiles = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) { {:tile=>:water, :known=>true} } }
+		@tiles = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) { Tile.new } }
 	end
 
 	def draw(border_colour)
@@ -79,9 +85,9 @@ class Board
 					print row.to_s.colorize(border_colour) + " "
 				end
 				
-				if @tiles[column][row][:known]
+				if @tiles[column][row].isKnown
 					#print array[column][row][:tile]
-					print mapsymbol_to_string(@tiles[column][row][:tile]) + " "
+					print mapsymbol_to_string(@tiles[column][row].getType) + " "
 				else
 					print "* "
 				end
@@ -129,7 +135,7 @@ class Board
 	def check_clear_row(row, start_column, size)
 		end_column = start_column + size - 1
 		(start_column..end_column).each do |index|
-			if @tiles[index][row][:tile] != :water
+			if @tiles[index][row].getType != :water
 				return false
 			end
 		end
@@ -140,7 +146,7 @@ class Board
 	def check_clear_column(column, start_row, size)
 		end_row = start_row + size - 1
 		(start_row..end_row).each do |index|
-			if @tiles[column][index][:tile] != :water
+			if @tiles[column][index].getType != :water
 				return false
 			end
 		end
@@ -178,14 +184,14 @@ class Board
 	private
 	def add_horizontal_ship(start_x, end_x, row)
 		(start_x..end_x).each do |column|
-			@tiles[column][row][:tile] = :ship
+			@tiles[column][row].setType(:ship)
 		end
 	end
 
 	private
 	def add_vertical_ship(start_y, end_y, column)
 		(start_y..end_y).each do |row|
-			@tiles[column][row][:tile] = :ship
+			@tiles[column][row].setType(:ship)
 		end
 	end
 
@@ -193,7 +199,7 @@ class Board
 	def scrap_all()
 		@tiles.each do |i|
 			i.each do |j|
-				j[:tile] = :water
+				j.setType(:water)
 			end
 		end
 	end
