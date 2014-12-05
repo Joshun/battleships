@@ -13,23 +13,6 @@ GRID_SIZE = 10
 # Types of ships [ ship_name: [quantity, size] ]
 SHIP_TYPES = [ aircraft_carrier: [1, 5], cruiser: [1, 4], destroyer: [2, 3], submarine: [1, 2] ]
 
-#~ class Ship
-	#~ def initialize(type, quantity, size)
-		#~ @type = type
-		#~ @quantity = quantity
-		#~ @size = size
-	#~ end
-	#~ def get_type
-		#~ return @type
-	#~ end
-	#~ def get_quantity
-		#~ return @quantity
-	#~ end
-	#~ def get_size
-		#~ return @size
-	#~ end
-#~ end
-
 class Ship
 	def initialize(type, size)
 		@type = type
