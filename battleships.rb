@@ -29,7 +29,7 @@ end
 class Tile
 	def initialize()
 		@type = :water
-		@known = true
+		@known = false
 	end
 	def makeKnown()
 		@known = true
@@ -88,7 +88,14 @@ class Board
 	def fire(coordinates)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
-		@tiles[y_coord][x_coord].makeKnown
+		tile = @tiles[x_coord][y_coord]
+		tile.makeKnown
+		
+		if tile.getType == :water
+			puts "Miss"
+		else
+			puts "Hit"
+		end
 	end
 
 	private
@@ -248,7 +255,9 @@ def main()
 	boardmap.arrange_ships(ships)
 	boardmap.draw(:green)
 	
-	get_input
+	coordinates = get_input
+	boardmap.fire coordinates
+	boardmap.draw(:green)
 end
 
 main
