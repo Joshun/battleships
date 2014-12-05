@@ -159,13 +159,13 @@ class Board
 			if( ! check_clear_row(coordinates[:y], coordinates[:x], ship_size) )
 				return false
 			end
-			add_horizontal_ship(coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
+			add_horizontal_ship(coordinates[:x], coordinates[:x] + ship_size, coordinates[:y])
 		elsif direction == :vertical
 			coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
 			if( ! check_clear_column(coordinates[:x], coordinates[:y], ship_size) )
 				return false
 			end
-			add_vertical_ship(coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
+			add_vertical_ship(coordinates[:y], coordinates[:y] + ship_size, coordinates[:x])
 		end
 		return true
 	end
@@ -191,14 +191,14 @@ class Board
 
 	private
 	def add_horizontal_ship(start_x, end_x, row)
-		(start_x..end_x).each do |column|
+		(start_x...end_x).each do |column|
 			@tiles[column][row].setType(:ship)
 		end
 	end
 
 	private
 	def add_vertical_ship(start_y, end_y, column)
-		(start_y..end_y).each do |row|
+		(start_y...end_y).each do |row|
 			@tiles[column][row].setType(:ship)
 		end
 	end
