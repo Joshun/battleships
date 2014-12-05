@@ -85,6 +85,12 @@ class Board
 		end
 	end
 
+	def fire(coordinates)
+		x_coord = coordinates[0]
+		y_coord = coordinates[1]
+		@tiles[y_coord][x_coord].makeKnown
+	end
+
 	private
 	def mapsymbol_to_string(msymbol)
 		case msymbol
