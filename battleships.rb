@@ -30,7 +30,7 @@ end
 class Tile
 	def initialize()
 		@type = :water
-		@known = true
+		@known = false
 	end
 	def makeKnown()
 		@known = true
@@ -51,6 +51,8 @@ class Board
 		@size = size
 		@border_colour = border_colour
 		@tiles = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) { Tile.new } }
+		@ship_squares = 0		
+		@ship_squares_hit = 0
 	end
 
 	def draw()
@@ -82,6 +84,13 @@ class Board
 	end
 
 	def arrange_ships(ships)
+		#Get number of ship squares
+		total_ship_squares = 0
+		ships.each do |ship|
+			total_ship_squares += ship.get_size
+		end
+		@ship_squares = total_ship_squares
+		
 		while(! try_arrange_ships(ships) ) #Keep trying to arrange ships, scrapping board and retrying upon failure
 			scrap_all
 		end
@@ -97,7 +106,16 @@ class Board
 			puts "Miss"
 		else
 			puts "Hit"
+			@ship_squares_hit += 1
 		end
+	end
+
+	def ship_squares_remaining
+		if @ship_squares_hit < @ship_squares
+			return true
+		else
+			return false
+		end	
 	end
 
 	private
@@ -267,9 +285,11 @@ def main()
 	boardmap.arrange_ships(ships)
 	boardmap.draw
 	
-	coordinates = get_input
-	boardmap.fire coordinates
-	boardmap.draw
+	while boardmap.ship_squares_remaining
+		coordinates = get_input
+		boardmap.fire coordinates
+		boardmap.draw
+	end
 end
 
 main
