@@ -57,14 +57,14 @@ class Board
 
 		# Print top border (0-9)
 		print "  "
-		(0..@size - 1).each do |num|
+		(0...@size).each do |num|
 			print num.to_s.colorize(@border_colour) + " "
 		end
 		puts
 
 		# Print array contents
-		(0..(@tiles.length - 1)).each do |row|
-			(0..(@tiles[row].length - 1)).each do |column|
+		(0...(@tiles.length)).each do |row|
+			(0...(@tiles[row].length)).each do |column|
 				# Print left border (0-9)
 				if column == 0
 					print row.to_s.colorize(@border_colour) + " "
@@ -131,8 +131,8 @@ class Board
 
 	private
 	def check_clear_row(row, start_column, size)
-		end_column = start_column + size - 1
-		(start_column..end_column).each do |index|
+		end_column = start_column + size
+		(start_column...end_column).each do |index|
 			if @tiles[index][row].getType != :water
 				return false
 			end
@@ -142,8 +142,8 @@ class Board
 
 	private
 	def check_clear_column(column, start_row, size)
-		end_row = start_row + size - 1
-		(start_row..end_row).each do |index|
+		end_row = start_row + size
+		(start_row...end_row).each do |index|
 			if @tiles[column][index].getType != :water
 				return false
 			end
@@ -176,7 +176,7 @@ class Board
 			ship_name = ship.get_type
 			ship_size = ship.get_size
 			ship_positioned = false
-			(0..MAX_SHIP_ATTEMPTS).each do |i| #Give up if cannot position ship
+			(0...MAX_SHIP_ATTEMPTS).each do |i| #Give up if cannot position ship
 				if try_add_ship(ship, ship_size)
 					ship_positioned = true
 					break
