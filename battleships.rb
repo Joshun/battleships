@@ -46,17 +46,18 @@ class Tile
 end
 
 class Board
-	def initialize(size)
+	def initialize(size, border_colour)
 		@size = size
+		@border_colour = border_colour
 		@tiles = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) { Tile.new } }
 	end
 
-	def draw(border_colour)
+	def draw()
 
 		# Print top border (0-9)
 		print "  "
 		(0..@size - 1).each do |num|
-			print num.to_s.colorize(border_colour) + " "
+			print num.to_s.colorize(@border_colour) + " "
 		end
 		puts
 
@@ -65,7 +66,7 @@ class Board
 			(0..(@tiles[row].length - 1)).each do |column|
 				# Print left border (0-9)
 				if column == 0
-					print row.to_s.colorize(border_colour) + " "
+					print row.to_s.colorize(@border_colour) + " "
 				end
 				
 				if @tiles[column][row].isKnown
@@ -251,13 +252,13 @@ def main()
 	ships.push(Ship.new("destroyer", 3))
 	ships.push(Ship.new("submarine", 2))
 	
-	boardmap = Board.new(10)
+	boardmap = Board.new(10, :green)
 	boardmap.arrange_ships(ships)
-	boardmap.draw(:green)
+	boardmap.draw
 	
 	coordinates = get_input
 	boardmap.fire coordinates
-	boardmap.draw(:green)
+	boardmap.draw
 end
 
 main
