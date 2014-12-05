@@ -43,6 +43,19 @@ class Ship
 	end
 end
 
+class Tile
+	def initialize()
+		@type = :water
+		@known = false
+	end
+	def makeKnown()
+		@known = true
+	end
+	def setType(type)
+		@type = type
+	end
+end
+
 class Board
 	def initialize(size)
 		@size = size
