@@ -106,10 +106,7 @@ class Board
 
 	def check_clear_row(row, start_column, size)
 		end_column = start_column + size - 1
-		i = 0
 		(start_column..end_column).each do |index|
-			puts i
-			i += 1
 			if @tiles[index][row][:tile] != :water
 				return false
 			end
@@ -119,10 +116,7 @@ class Board
 
 	def check_clear_column(column, start_row, size)
 		end_row = start_row + size - 1
-		i = 0
 		(start_row..end_row).each do |index|
-			puts i
-			i += 1
 			if @tiles[column][index][:tile] != :water
 				return false
 			end
@@ -135,21 +129,21 @@ class Board
 		ships.each do |ship|
 			ship_name = ship.get_type
 			ship_size = ship.get_size
-			puts shipnum
+			#puts shipnum
 			direction = self.horizontal_or_vertical
 			if direction == :horizontal
 				coordinates = self.get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
 				if( ! self.check_clear_row(coordinates[:y], coordinates[:x], ship_size) )
 					return false
 				end
-				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
+				#puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
 				add_horizontal_ship(coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
 			elsif direction == :vertical
 				coordinates = self.get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
 				if( ! self.check_clear_column(coordinates[:x], coordinates[:y], ship_size) )
 					return false
 				end
-				puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
+				#puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
 				add_vertical_ship(coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
 			end
 			shipnum += 1			
@@ -165,15 +159,12 @@ class Board
 
 	def add_horizontal_ship(start_x, end_x, row)
 		(start_x..end_x).each do |column|
-			puts column
 			@tiles[column][row][:tile] = :ship
 		end
 	end
 
 	def add_vertical_ship(start_y, end_y, column)
 		(start_y..end_y).each do |row|
-			puts "row:" + row.to_s
-			puts "col: " + column.to_s
 			@tiles[column][row][:tile] = :ship
 		end
 	end
