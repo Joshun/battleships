@@ -285,11 +285,15 @@ def main()
 	boardmap.arrange_ships(ships)
 	boardmap.draw
 	
+	attempts = 0
 	while boardmap.ship_squares_remaining
 		coordinates = get_input
 		boardmap.fire coordinates
 		boardmap.draw
+		attempts += 1
 	end
+	
+	puts "Well done, you completed the game! You took " + attempts + " attempts."
 end
 
 main
