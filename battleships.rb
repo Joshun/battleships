@@ -68,7 +68,7 @@ class Board
 				
 				if @tiles[column][row][:known]
 					#print array[column][row][:tile]
-					print self.mapsymbol_to_string(@tiles[column][row][:tile]) + " "
+					print mapsymbol_to_string(@tiles[column][row][:tile]) + " "
 				else
 					print "* "
 				end
@@ -77,6 +77,13 @@ class Board
 		end
 	end
 
+	def arrange_ships(ships)
+		while(! try_arrange_ships(ships) )
+			scrap_all
+		end
+	end
+
+	private
 	def mapsymbol_to_string(msymbol)
 		case msymbol
 			when :water
@@ -88,6 +95,7 @@ class Board
 		end
 	end
 
+	private
 	def get_random_coordinates(x_max, y_max)
 		x_coord = rand(0..x_max)
 		y_coord = rand(0..y_max)
@@ -95,7 +103,7 @@ class Board
 		return { x: x_coord, y: y_coord }
 	end
 
-
+	private
 	def horizontal_or_vertical()
 		if rand(0..1) == 0
 			return :horizontal
@@ -104,6 +112,7 @@ class Board
 		end
 	end
 
+	private
 	def check_clear_row(row, start_column, size)
 		end_column = start_column + size - 1
 		(start_column..end_column).each do |index|
@@ -114,6 +123,7 @@ class Board
 		return true
 	end
 
+	private
 	def check_clear_column(column, start_row, size)
 		end_row = start_row + size - 1
 		(start_row..end_row).each do |index|
@@ -124,23 +134,24 @@ class Board
 		return true
 	end
 
+	private
 	def try_arrange_ships(ships)
 		shipnum = 0
 		ships.each do |ship|
 			ship_name = ship.get_type
 			ship_size = ship.get_size
 			#puts shipnum
-			direction = self.horizontal_or_vertical
+			direction = horizontal_or_vertical
 			if direction == :horizontal
-				coordinates = self.get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
-				if( ! self.check_clear_row(coordinates[:y], coordinates[:x], ship_size) )
+				coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
+				if( ! check_clear_row(coordinates[:y], coordinates[:x], ship_size) )
 					return false
 				end
 				#puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
 				add_horizontal_ship(coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
 			elsif direction == :vertical
-				coordinates = self.get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
-				if( ! self.check_clear_column(coordinates[:x], coordinates[:y], ship_size) )
+				coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
+				if( ! check_clear_column(coordinates[:x], coordinates[:y], ship_size) )
 					return false
 				end
 				#puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
@@ -150,25 +161,22 @@ class Board
 		end
 		return true
 	end
-	
-	def arrange_ships(ships)
-		while(! try_arrange_ships(ships) )
-			self.scrap_all
-		end
-	end
 
+	private
 	def add_horizontal_ship(start_x, end_x, row)
 		(start_x..end_x).each do |column|
 			@tiles[column][row][:tile] = :ship
 		end
 	end
 
+	private
 	def add_vertical_ship(start_y, end_y, column)
 		(start_y..end_y).each do |row|
 			@tiles[column][row][:tile] = :ship
 		end
 	end
 
+	private
 	def scrap_all()
 		@tiles.each do |i|
 			i.each do |j|
