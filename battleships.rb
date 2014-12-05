@@ -186,7 +186,7 @@ class Board
 				return false
 			end
 		end
-		return true #Assume ship has been positioned correctly
+		return true #Assume all ships have been positioned correctly
 	end
 
 	private
