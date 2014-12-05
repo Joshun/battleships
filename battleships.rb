@@ -8,7 +8,8 @@
 require "colorize"
 
 
-GRID_SIZE = 10
+GRID_SIZE = 10 #Width and height of grid
+MAX_SHIP_ATTEMPTS = 5 #Maximum number of times to try ship positioning before giving up
 
 # Types of ships [ ship_name: [quantity, size] ]
 SHIP_TYPES = [ aircraft_carrier: [1, 5], cruiser: [1, 4], destroyer: [2, 3], submarine: [1, 2] ]
@@ -29,7 +30,7 @@ end
 class Tile
 	def initialize()
 		@type = :water
-		@known = false
+		@known = true
 	end
 	def makeKnown()
 		@known = true
@@ -81,7 +82,7 @@ class Board
 	end
 
 	def arrange_ships(ships)
-		while(! try_arrange_ships(ships) )
+		while(! try_arrange_ships(ships) ) #Keep trying to arrange ships, scrapping board and retrying upon failure
 			scrap_all
 		end
 	end
@@ -151,31 +152,41 @@ class Board
 	end
 
 	private
+	def try_add_ship(ship, ship_size)
+		direction = horizontal_or_vertical
+		if direction == :horizontal
+			coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
+			if( ! check_clear_row(coordinates[:y], coordinates[:x], ship_size) )
+				return false
+			end
+			add_horizontal_ship(coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
+		elsif direction == :vertical
+			coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
+			if( ! check_clear_column(coordinates[:x], coordinates[:y], ship_size) )
+				return false
+			end
+			add_vertical_ship(coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
+		end
+		return true
+	end
+	
+	private
 	def try_arrange_ships(ships)
-		shipnum = 0
 		ships.each do |ship|
 			ship_name = ship.get_type
 			ship_size = ship.get_size
-			#puts shipnum
-			direction = horizontal_or_vertical
-			if direction == :horizontal
-				coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
-				if( ! check_clear_row(coordinates[:y], coordinates[:x], ship_size) )
-					return false
+			ship_positioned = false
+			(0..MAX_SHIP_ATTEMPTS).each do |i| #Give up if cannot position ship
+				if try_add_ship(ship, ship_size)
+					ship_positioned = true
+					break
 				end
-				#puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
-				add_horizontal_ship(coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
-			elsif direction == :vertical
-				coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
-				if( ! check_clear_column(coordinates[:x], coordinates[:y], ship_size) )
-					return false
-				end
-				#puts ship_name + " start " + coordinates[:x].to_s + ":" + coordinates[:y].to_s + " end " + (coordinates[:x] + ship_size - 1).to_s + ":" + coordinates[:y].to_s
-				add_vertical_ship(coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
 			end
-			shipnum += 1			
+			if ! ship_positioned #Unable to position ship - need to scrap board and try again
+				return false
+			end
 		end
-		return true
+		return true #Assume ship has been positioned correctly
 	end
 
 	private
