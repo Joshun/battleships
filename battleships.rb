@@ -213,7 +213,14 @@ def get_input()
 		coordinates = Array.new
 		coordinates[0] = coordinate_strings[0].to_i
 		coordinates[1] = coordinate_strings[1].to_i
-	end until check_valid_position(coordinates[0], coordinates[1])
+		
+		if coordinate_strings[0] == nil || coordinate_strings[1] == nil
+			null_string = true
+		else
+			null_string = false
+		end
+		
+	end until check_valid_position(coordinates[0], coordinates[1]) && ! null_string
 	
 	return coordinates
 end
