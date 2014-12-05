@@ -281,7 +281,7 @@ def main()
 	ships.push(Ship.new("destroyer", 3))
 	ships.push(Ship.new("submarine", 2))
 	
-	boardmap = Board.new(10, :green)
+	boardmap = Board.new(GRID_SIZE, :green)
 	boardmap.arrange_ships(ships)
 	boardmap.draw
 	
