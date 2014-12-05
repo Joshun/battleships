@@ -204,6 +204,20 @@ def check_valid_position(xcoord, ycoord)
 	end
 end
 
+def get_input()
+	begin
+		print "Coordinates: "
+		input_string = gets.chomp.delete(" ")
+		coordinate_strings = input_string.split(",")
+
+		coordinates = Array.new
+		coordinates[0] = coordinate_strings[0].to_i
+		coordinates[1] = coordinate_strings[1].to_i
+	end until check_valid_position(coordinates[0], coordinates[1])
+	
+	return coordinates
+end
+
 
 def main()
 	puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
@@ -220,6 +234,8 @@ def main()
 	boardmap = Board.new(10)
 	boardmap.arrange_ships(ships)
 	boardmap.draw(:green)
+	
+	get_input
 end
 
 main
