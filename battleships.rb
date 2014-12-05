@@ -43,6 +43,56 @@ class Ship
 	end
 end
 
+class Board
+	def initialize(size)
+		@size = size
+		@tiles = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) { {:tile=>:water, :known=>true} } }
+	end
+
+	def draw(border_colour)
+
+		# Print top border (0-9)
+		print "  "
+		(0..@size - 1).each do |num|
+			print num.to_s.colorize(border_colour) + " "
+		end
+		puts
+
+		# Print array contents
+		(0..(@tiles.length - 1)).each do |row|
+			(0..(@tiles[row].length - 1)).each do |column|
+				# Print left border (0-9)
+				if column == 0
+					print row.to_s.colorize(border_colour) + " "
+				end
+				
+				if @tiles[column][row][:known]
+					#print array[column][row][:tile]
+					print mapsymbol_to_string(@tiles[column][row][:tile]) + " "
+				else
+					print "* "
+				end
+			end
+			puts
+		end
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def print_coloured(str, colour)
 	puts str.colorize(colour)
 end
@@ -216,7 +266,8 @@ def main()
 	
 	draw_map(battleGrid, :green)
 
-	
+	boardmap = Board.new(10)
+	boardmap.draw(:green)
 		
 end
 
