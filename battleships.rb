@@ -32,16 +32,16 @@ class Tile
 		@type = :water
 		@known = false
 	end
-	def makeKnown()
+	def make_known()
 		@known = true
 	end
-	def setType(type)
+	def set_type(type)
 		@type = type
 	end
-	def getType()
+	def get_type()
 		return @type
 	end
-	def isKnown()
+	def is_known()
 		return @known
 	end
 end
@@ -72,9 +72,9 @@ class Board
 					print row.to_s.colorize(@border_colour) + " "
 				end
 				
-				if @tiles[column][row].isKnown
+				if @tiles[column][row].is_known
 					#print array[column][row][:tile]
-					print mapsymbol_to_string(@tiles[column][row].getType) + " "
+					print mapsymbol_to_string(@tiles[column][row].get_type) + " "
 				else
 					print "* "
 				end
@@ -100,9 +100,9 @@ class Board
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
 		tile = @tiles[x_coord][y_coord]
-		tile.makeKnown
+		tile.make_known
 		
-		if tile.getType == :water
+		if tile.get_type == :water
 			puts "Miss"
 		else
 			puts "Hit"
@@ -119,7 +119,7 @@ class Board
 	end
 
 	def get_square_known_status(coordinates)
-		return @tiles[coordinates[1]][coordinates[0]].isKnown
+		return @tiles[coordinates[1]][coordinates[0]].is_known
 	end
 
 	private
@@ -155,7 +155,7 @@ class Board
 	def check_clear_row(row, start_column, size)
 		end_column = start_column + size
 		(start_column...end_column).each do |index|
-			if @tiles[index][row].getType != :water
+			if @tiles[index][row].get_type != :water
 				return false
 			end
 		end
@@ -166,7 +166,7 @@ class Board
 	def check_clear_column(column, start_row, size)
 		end_row = start_row + size
 		(start_row...end_row).each do |index|
-			if @tiles[column][index].getType != :water
+			if @tiles[column][index].get_type != :water
 				return false
 			end
 		end
@@ -214,14 +214,14 @@ class Board
 	private
 	def add_horizontal_ship(start_x, end_x, row)
 		(start_x...end_x).each do |column|
-			@tiles[column][row].setType(:ship)
+			@tiles[column][row].set_type(:ship)
 		end
 	end
 
 	private
 	def add_vertical_ship(start_y, end_y, column)
 		(start_y...end_y).each do |row|
-			@tiles[column][row].setType(:ship)
+			@tiles[column][row].set_type(:ship)
 		end
 	end
 
@@ -229,7 +229,7 @@ class Board
 	def scrap_all()
 		@tiles.each do |i|
 			i.each do |j|
-				j.setType(:water)
+				j.set_type(:water)
 			end
 		end
 	end
