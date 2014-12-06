@@ -46,14 +46,7 @@ class Ship
 		@end_y = end_y
 		@column = column
 	end
-	def reduce_squares
-		if @squares_left > 0
-			@squares_left -= 1
-			return false
-		else
-			return true
-		end
-	end
+	
 	def see_if_hit(coordinates)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
@@ -76,6 +69,16 @@ class Ship
 		end
 		return :failed
 	end
+
+	private
+	def reduce_squares
+		if @squares_left > 0
+			@squares_left -= 1
+			return false
+		else
+			return true
+		end
+	end	
 end
 
 class Tile
