@@ -311,7 +311,23 @@ class Board
 		end
 		puts "You missed"
 	end
-
+	
+	private
+	def see_if_shot_was_close(coordinates)
+		x_coord = coordinates[0]
+		y_coord = coordinates[1]
+		
+		left_square = @tiles[y_coord][x_coord - 1].get_type
+		right_square = @tiles[y_coord][x_coord + 1].get_type
+		top_square = @tiles[y_coord - 1][x_coord].get_type
+		bottom_square = @tiles[y_coord + 1][x_coord].get_type
+		
+		if left_square == :ship || right_square == :ship || top_square == :ship || bottom_square == :ship
+			return true
+		else
+			return false
+		end
+	end
 end
 
 
