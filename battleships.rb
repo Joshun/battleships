@@ -404,7 +404,7 @@ def main()
 	# Each array element is a hash with a tile value (water or ship) and a known value (true or false)
 	
 	ships = []
-	ships.push(Ship.new("aircraft_carrier", 5))
+	ships.push(Ship.new("aircraft carrier", 5))
 	ships.push(Ship.new("cruiser", 4))
 	ships.push(Ship.new("destroyer", 3))
 	ships.push(Ship.new("destroyer", 3))
