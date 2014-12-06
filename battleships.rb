@@ -310,10 +310,11 @@ class Board
 			end
 		end
 		puts "You missed"
+		if see
 	end
 	
 	private
-	def see_if_shot_was_close(coordinates)
+	def shot_was_close(coordinates)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
 		
