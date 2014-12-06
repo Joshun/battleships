@@ -349,7 +349,7 @@ def get_input(board)
 		end
 		
 		if valid_coords && ! null_string
-			#hit_already = board.get_square_known_status(coordinates)
+			hit_already = board.get_square_known_status(coordinates)
 		end
 		
 	end until valid_coords && ! null_string && ! hit_already
