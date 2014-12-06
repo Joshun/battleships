@@ -15,25 +15,6 @@ MAX_SHIP_ATTEMPTS = 5 #Maximum number of times to try ship positioning before gi
 # Types of ships [ ship_name: [quantity, size] ]
 SHIP_TYPES = [ aircraft_carrier: [1, 5], cruiser: [1, 4], destroyer: [2, 3], submarine: [1, 2] ]
 
-class Tile
-	def initialize()
-		@type = :water
-		@known = false
-	end
-	def make_known()
-		@known = true
-	end
-	def set_type(type)
-		@type = type
-	end
-	def get_type()
-		return @type
-	end
-	def is_known()
-		return @known
-	end
-end
-
 class Board
 	def initialize(size, border_colour)
 		@size = size
