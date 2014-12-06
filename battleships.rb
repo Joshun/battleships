@@ -360,9 +360,9 @@ def print_coloured(str, colour)
 end
 
 def check_valid_position(xcoord, ycoord)
-	if xcoord > GRID_SIZE || xcoord < 0
+	if xcoord >= GRID_SIZE || xcoord < 0
 		return false
-	elsif ycoord > GRID_SIZE || ycoord < 0
+	elsif ycoord >= GRID_SIZE || ycoord < 0
 		return false
 	else
 		return true
