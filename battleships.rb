@@ -18,6 +18,15 @@ class Ship
 	def initialize(type, size)
 		@type = type
 		@size = size
+		@squares_left = size
+
+		@position = nil
+		@start_x = nil
+		@end_x = nil
+		@column = nil
+		@start_y = nil
+		@end_y = nil
+		@row = nil
 	end
 	def get_type
 		return @type
@@ -25,6 +34,18 @@ class Ship
 	def get_size
 		return @size
 	end
+	def set_squares_horizontal(start_x, end_x, row)
+		@position = :horizontal
+		@start_x = start_x
+		@end_x = end_x
+		@row = row
+	end
+	def set_squares_vertical(start_y, end_y, column)
+		@position = :vertical
+		@start_y = start_y
+		@end_y = end_y
+		@column = column
+	end		
 end
 
 class Tile
