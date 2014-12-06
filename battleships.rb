@@ -50,8 +50,9 @@ class Ship
 	def see_if_hit(coordinates)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
-		if @position == :horizontal
-			if (x_coord >= @start_x) && ((x_coord + @size) <= @end_x ) && (y_coord == @row)
+		
+		if @position == :horizontal		
+			if (x_coord >= @start_x) && (x_coord <= @end_x ) && (y_coord == @row)
 				if reduce_squares
 					return :sunk
 				else
@@ -59,7 +60,7 @@ class Ship
 				end
 			end
 		else
-			if (y_coord >= @start_y) && ((y_coord + @size) <= @end_y) && (x_coord == @column)
+			if (y_coord >= @start_y) && (y_coord <= @end_y) && (x_coord == @column)
 				if reduce_squares
 					return :sunk
 				else
@@ -72,7 +73,7 @@ class Ship
 
 	private
 	def reduce_squares
-		if @squares_left > 0
+		if @squares_left > 1
 			@squares_left -= 1
 			return false
 		else
@@ -105,8 +106,7 @@ class Board
 		@size = size
 		@border_colour = border_colour
 		@tiles = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) { Tile.new } }
-		@ship_squares = 0		
-		@ship_squares_hit = 0
+		@ships_left = 0
 	end
 
 	def draw()
@@ -145,31 +145,35 @@ class Board
 		end
 		@ship_squares = total_ship_squares
 		
+		@ships_left = ships.length
+		
 		while(! try_arrange_ships(ships) ) #Keep trying to arrange ships, scrapping board and retrying upon failure
 			scrap_all
 		end
 	end
 
-	def fire(coordinates)
+	def fire(coordinates, ships)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
 		tile = @tiles[x_coord][y_coord]
 		tile.make_known
 		
-		if tile.get_type == :water
-			puts "Miss"
-		else
-			puts "Hit"
-			@ship_squares_hit += 1
-		end
+		#~ if tile.get_type == :water
+			#~ puts "Miss"
+		#~ else
+			#~ puts "Hit"
+			#~ @ship_squares_hit += 1
+		#~ end
+		
+		try_fire_ship(coordinates, ships)
 	end
-
-	def ship_squares_remaining
-		if @ship_squares_hit < @ship_squares
+	
+	def ships_remaining
+		if @ships_left > 0
 			return true
 		else
 			return false
-		end	
+		end
 	end
 
 	def get_square_known_status(coordinates)
@@ -289,6 +293,24 @@ class Board
 			end
 		end
 	end
+	
+	private
+	def try_fire_ship(coordinates, ships)
+		ships.each do |ship|
+			ship_status = ship.see_if_hit(coordinates)
+			if ship_status == :hit
+				puts "You hit the " + ship.get_type
+				return
+			elsif ship_status == :sunk
+				puts "You sunk the " + ship.get_type
+					if @ships_left >= 1
+						@ships_left -= 1
+					end
+				return
+			end
+		end
+		puts "You missed"
+	end
 
 end
 
@@ -317,7 +339,8 @@ def get_input(board)
 		coordinates[0] = coordinate_strings[0].to_i
 		coordinates[1] = coordinate_strings[1].to_i
 		
-		hit_already = board.get_square_known_status(coordinates)
+		hit_already = false
+		valid_coords = check_valid_position(coordinates[0], coordinates[1])
 		
 		if coordinate_strings[0] == nil || coordinate_strings[1] == nil || hit_already
 			null_string = true
@@ -325,7 +348,11 @@ def get_input(board)
 			null_string = false
 		end
 		
-	end until check_valid_position(coordinates[0], coordinates[1]) && ! null_string
+		if valid_coords && ! null_string
+			#hit_already = board.get_square_known_status(coordinates)
+		end
+		
+	end until valid_coords && ! null_string && ! hit_already
 	
 	return coordinates
 end
@@ -348,9 +375,9 @@ def main()
 	boardmap.draw
 	
 	attempts = 0
-	while boardmap.ship_squares_remaining
+	while boardmap.ships_remaining
 		coordinates = get_input(boardmap)
-		boardmap.fire coordinates
+		boardmap.fire coordinates, ships
 		boardmap.draw
 		attempts += 1
 	end
