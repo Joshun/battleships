@@ -45,7 +45,37 @@ class Ship
 		@start_y = start_y
 		@end_y = end_y
 		@column = column
-	end		
+	end
+	def reduce_squares
+		if @squares_left > 0
+			@squares_left -= 1
+			return false
+		else
+			return true
+		end
+	end
+	def see_if_hit(coordinates)
+		x_coord = coordinates[0]
+		y_coord = coordinates[1]
+		if @position == :horizontal
+			if (x_coord >= @start_x) && ((x_coord + @size) <= @end_x ) && (y_coord == @row)
+				if reduce_squares
+					return :sunk
+				else
+					return :hit
+				end
+			end
+		else
+			if (y_coord >= @start_y) && ((y_coord + @size) <= @end_y) && (x_coord == @column)
+				if reduce_squares
+					return :sunk
+				else
+					return :hit
+				end
+			end
+		end
+		return :failed
+	end
 end
 
 class Tile
