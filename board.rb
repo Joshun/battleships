@@ -23,9 +23,9 @@ class Board
 					print row.to_s.colorize(@border_colour) + " "
 				end
 				
-				if @tiles[column][row].is_known
+				if @tiles[row][column].is_known
 					#print array[column][row][:tile]
-					print mapsymbol_to_string(@tiles[column][row].get_type) + " "
+					print mapsymbol_to_string(@tiles[row][column].get_type) + " "
 				else
 					print "* "
 				end
@@ -52,8 +52,7 @@ class Board
 	def fire(coordinates, ships)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
-		tile = @tiles[x_coord][y_coord]
-		tile.make_known
+		@tiles[y_coord][x_coord].make_known
 		
 		#~ if tile.get_type == :water
 			#~ puts "Miss"
