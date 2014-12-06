@@ -203,12 +203,14 @@ class Board
 				return false
 			end
 			add_horizontal_ship(coordinates[:x], coordinates[:x] + ship_size, coordinates[:y])
+			ship.set_squares_horizontal(coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
 		elsif direction == :vertical
 			coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
 			if( ! check_clear_column(coordinates[:x], coordinates[:y], ship_size) )
 				return false
 			end
 			add_vertical_ship(coordinates[:y], coordinates[:y] + ship_size, coordinates[:x])
+			ship.set_squares_vertical(coordinates[:y], coordinates[:y] + ship_size - 1, coordinates[:x])
 		end
 		return true
 	end
