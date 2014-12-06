@@ -54,6 +54,10 @@ def get_input(board)
 			hit_already = board.get_square_known_status(coordinates)
 		end
 		
+		if hit_already
+			puts "You already shot at that square"
+		end
+		
 	end until valid_coords && ! null_string && ! hit_already
 	
 	return coordinates
