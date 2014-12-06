@@ -118,6 +118,10 @@ class Board
 		end	
 	end
 
+	def get_square_known_status(coordinates)
+		return @tiles[coordinates[1]][coordinates[0]].isKnown
+	end
+
 	private
 	def mapsymbol_to_string(msymbol)
 		case msymbol
@@ -247,7 +251,7 @@ def check_valid_position(xcoord, ycoord)
 	end
 end
 
-def get_input()
+def get_input(board)
 	begin
 		print "Coordinates: "
 		input_string = gets.chomp.delete(" ")
@@ -257,7 +261,9 @@ def get_input()
 		coordinates[0] = coordinate_strings[0].to_i
 		coordinates[1] = coordinate_strings[1].to_i
 		
-		if coordinate_strings[0] == nil || coordinate_strings[1] == nil
+		hit_already = board.get_square_known_status(coordinates)
+		
+		if coordinate_strings[0] == nil || coordinate_strings[1] == nil || hit_already
 			null_string = true
 		else
 			null_string = false
@@ -287,13 +293,13 @@ def main()
 	
 	attempts = 0
 	while boardmap.ship_squares_remaining
-		coordinates = get_input
+		coordinates = get_input(boardmap)
 		boardmap.fire coordinates
 		boardmap.draw
 		attempts += 1
 	end
 	
-	puts "Well done, you completed the game! You took " + attempts + " attempts."
+	puts "Well done, you completed the game! You took " + attempts.to_s + " attempts."
 end
 
 main
