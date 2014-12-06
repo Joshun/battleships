@@ -170,14 +170,14 @@ class Board
 	private
 	def add_horizontal_ship(start_x, end_x, row)
 		(start_x...end_x).each do |column|
-			@tiles[column][row].set_type(:ship)
+			@tiles[row][column].set_type(:ship)
 		end
 	end
 
 	private
 	def add_vertical_ship(start_y, end_y, column)
 		(start_y...end_y).each do |row|
-			@tiles[column][row].set_type(:ship)
+			@tiles[row][column].set_type(:ship)
 		end
 	end
 
