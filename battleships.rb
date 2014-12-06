@@ -309,8 +309,12 @@ class Board
 				return
 			end
 		end
-		puts "You missed"
-		if see
+		print "You missed"
+		if shot_was_close(coordinates)
+			puts "...your shot was very close!"
+		else
+			puts
+		end
 	end
 	
 	private
