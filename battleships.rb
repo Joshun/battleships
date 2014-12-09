@@ -33,7 +33,7 @@ end
 
 def get_input(board)
 	begin
-		print "Coordinates: "
+		print "Coordinates (x,y): "
 		input_string = gets.chomp.delete(" ")
 		coordinate_strings = input_string.split(",")
 
