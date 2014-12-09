@@ -195,7 +195,7 @@ class Board
 		ships.each do |ship|
 			ship_status = ship.see_if_hit(coordinates)
 			if ship_status == :hit
-				puts "You hit the " + ship.get_type
+				puts "You hit!"
 				return
 			elsif ship_status == :sunk
 				puts "You sunk the " + ship.get_type
