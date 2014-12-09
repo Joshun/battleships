@@ -65,7 +65,15 @@ end
 
 
 def main()
-	puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
+
+	# Print welcome message
+	title = "Battleships"
+	underline = "=" * title.length
+	puts title
+	puts underline
+	puts
+
+	#puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
 	# Create new array to store battleships
 	# Each array element is a hash with a tile value (water or ship) and a known value (true or false)
 	
