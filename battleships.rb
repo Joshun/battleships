@@ -14,9 +14,6 @@ require_relative "board"
 GRID_SIZE = 10 #Width and height of grid
 MAX_SHIP_ATTEMPTS = 5 #Maximum number of times to try ship positioning before giving up
 
-# Types of ships [ ship_name: [quantity, size] ]
-SHIP_TYPES = [ aircraft_carrier: [1, 5], cruiser: [1, 4], destroyer: [2, 3], submarine: [1, 2] ]
-
 def print_coloured(str, colour)
 	puts str.colorize(colour)
 end
