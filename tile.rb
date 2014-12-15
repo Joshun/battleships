@@ -15,4 +15,18 @@ class Tile
 	def is_known()
 		return @known
 	end
+	def generate_str()
+		if @known
+			case @type
+				when :water
+					return "w".colorize(:background => :light_blue)
+				when :ship
+					return "s".colorize(:background => :red)
+				else
+					return " "
+			end
+		else
+			return "*"
+		end
+	end	
 end

@@ -25,12 +25,7 @@ class Board
 					print row.to_s.colorize(@border_colour) + " "
 				end
 				
-				if @tiles[row][column].is_known
-					#print array[column][row][:tile]
-					print mapsymbol_to_string(@tiles[row][column].get_type) + " "
-				else
-					print "* "
-				end
+				print @tiles[row][column].generate_str + " "
 			end
 			puts
 		end
@@ -66,19 +61,6 @@ class Board
 	# Method to determine whether or not a tile has been shot at already
 	def get_square_known_status(coordinates)
 		return @tiles[coordinates[1]][coordinates[0]].is_known
-	end
-
-	# Method to map a tile type symbol to a "colorized" string
-	private
-	def mapsymbol_to_string(msymbol)
-		case msymbol
-			when :water
-				return "w".colorize(:background => :light_blue)
-			when :ship
-				return "s".colorize(:background => :red)
-			else
-				return " "
-		end
 	end
 
 	# Method used to randomly obtain coordinates in a given range
