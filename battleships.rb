@@ -13,6 +13,7 @@ require_relative "board"
 
 GRID_SIZE = 10 #Width and height of grid
 
+# Function to check if the given coordinates are within the allowable range
 def check_valid_position(xcoord, ycoord)
 	if xcoord >= GRID_SIZE || xcoord < 0
 		return false
@@ -23,6 +24,7 @@ def check_valid_position(xcoord, ycoord)
 	end
 end
 
+# Function to get user input, validate it and split it into two coordinates
 def get_input(board)
 	begin
 		print "Coordinates (x,y): "
@@ -36,6 +38,7 @@ def get_input(board)
 		hit_already = false
 		valid_coords = check_valid_position(coordinates[0], coordinates[1])
 		
+		# See if string could be converted to integer or not
 		if coordinate_strings[0] == nil || coordinate_strings[1] == nil
 			null_string = true
 		else
@@ -49,7 +52,8 @@ def get_input(board)
 		if hit_already
 			puts "You already shot at that square"
 		end
-		
+		# Keep looping until the user enters valid input - the function's job is to only 
+		# return coordinates that are valid
 	end until valid_coords && ! null_string && ! hit_already
 	
 	return coordinates
@@ -75,10 +79,13 @@ def main()
 	]
 	
 	# Create new Board instance to manage the location of ship and water tiles
+	# (:green is the colour of the grid's coordinate lines)
 	boardmap = Board.new(GRID_SIZE, :green)
 	boardmap.arrange_ships(ships)
 	boardmap.draw
 	
+	# Keep requesting input, firing using that input and redrawing the board, until all the ships
+	# have been eliminated.
 	attempts = 0
 	while boardmap.ships_remaining
 		coordinates = get_input(boardmap)
@@ -87,6 +94,7 @@ def main()
 		attempts += 1
 	end
 	
+	# End of game - print out how many attempts the player took to complete it
 	puts "Well done, you completed the game! You took " + attempts.to_s + " attempts."
 end
 
