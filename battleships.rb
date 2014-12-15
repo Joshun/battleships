@@ -36,7 +36,7 @@ def get_input(board)
 		hit_already = false
 		valid_coords = check_valid_position(coordinates[0], coordinates[1])
 		
-		if coordinate_strings[0] == nil || coordinate_strings[1] == nil || hit_already
+		if coordinate_strings[0] == nil || coordinate_strings[1] == nil
 			null_string = true
 		else
 			null_string = false
