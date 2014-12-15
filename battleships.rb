@@ -64,11 +64,8 @@ def main()
 	puts title
 	puts underline
 	puts
-
-	#puts "Creating new battleship grid of (" + GRID_SIZE.to_s + "x" + GRID_SIZE.to_s + ") squares."
-	# Create new array to store battleships
-	# Each array element is a hash with a tile value (water or ship) and a known value (true or false)
 	
+	# Create a new array of ships 
 	ships = []
 	ships.push(Ship.new("aircraft carrier", 5))
 	ships.push(Ship.new("cruiser", 4))
