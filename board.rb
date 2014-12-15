@@ -7,6 +7,7 @@ class Board
 		@ships_left = 0
 	end
 
+	# Method to draw the board on screen
 	def draw()
 
 		# Print top border (0-9)
@@ -45,6 +46,7 @@ class Board
 		end
 	end
 
+	# Method that fires at given coordinates, seeing if a ship is present
 	def fire(coordinates, ships)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
@@ -52,6 +54,7 @@ class Board
 		try_fire_ship(coordinates, ships)
 	end
 	
+	# Method to see if there are still ships remaining to destroy
 	def ships_remaining
 		if @ships_left > 0
 			return true
@@ -60,10 +63,12 @@ class Board
 		end
 	end
 
+	# Method to determine whether or not a tile has been shot at already
 	def get_square_known_status(coordinates)
 		return @tiles[coordinates[1]][coordinates[0]].is_known
 	end
 
+	# Method to map a tile type symbol to a "colorized" string
 	private
 	def mapsymbol_to_string(msymbol)
 		case msymbol
@@ -76,6 +81,7 @@ class Board
 		end
 	end
 
+	# Method used to randomly obtain coordinates in a given range
 	private
 	def get_random_coordinates(x_max, y_max)
 		x_coord = rand(0..x_max)
@@ -84,6 +90,7 @@ class Board
 		return { x: x_coord, y: y_coord }
 	end
 
+	# Method used to randomly decide whether to align a ship horizontally or vertically
 	private
 	def horizontal_or_vertical()
 		if rand(0..1) == 0
@@ -93,6 +100,7 @@ class Board
 		end
 	end
 
+	# Method to determine whether or not a section of a row is free from ships
 	private
 	def check_clear_row(row, start_column, size)
 		end_column = start_column + size
@@ -104,6 +112,7 @@ class Board
 		return true
 	end
 
+	# Method to determine whether or not a section of a column is free from ships
 	private
 	def check_clear_column(column, start_row, size)
 		end_row = start_row + size
@@ -115,6 +124,7 @@ class Board
 		return true
 	end
 
+	# Method that tries to add a ship to the grid, returning false on failure
 	private
 	def try_add_ship(ship, ship_size)
 		direction = horizontal_or_vertical
@@ -136,6 +146,8 @@ class Board
 		return true
 	end
 	
+	# Method that tries to arrange all the ships on the grid, giving up if it fails
+	# and returning false
 	private
 	def try_arrange_ships(ships)
 		ships.each do |ship|
@@ -155,6 +167,7 @@ class Board
 		return true #Assume all ships have been positioned correctly
 	end
 
+	# Method to add a ship horizontally
 	private
 	def add_horizontal_ship(start_x, end_x, row)
 		(start_x...end_x).each do |column|
@@ -162,6 +175,7 @@ class Board
 		end
 	end
 
+	# Method to add a ship vertically
 	private
 	def add_vertical_ship(start_y, end_y, column)
 		(start_y...end_y).each do |row|
@@ -169,6 +183,7 @@ class Board
 		end
 	end
 
+	# Method to 'reset' the grid by setting all squares to :water
 	private
 	def scrap_all()
 		@tiles.each do |i|
@@ -178,6 +193,7 @@ class Board
 		end
 	end
 	
+	# Method that finds out whether the supplied coordinates would hit a ship
 	private
 	def try_fire_ship(coordinates, ships)
 		ships.each do |ship|
@@ -201,6 +217,7 @@ class Board
 		end
 	end
 	
+	# Method to determine whether or not a shot was close to hitting a ship
 	private
 	def shot_was_close(coordinates)
 		x_coord = coordinates[0]
