@@ -29,7 +29,7 @@ def get_input(board)
 	begin
 		print "Coordinates (x,y): "
 		input_string = gets.chomp.delete(" ")
-		coordinate_strings = input_string.split(",")
+		coordinate_strings = input_string.split(",") # Split input into x and y values by comma separation
 
 		coordinates = Array.new
 		coordinates[0] = coordinate_strings[0].to_i
