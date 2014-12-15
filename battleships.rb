@@ -66,12 +66,13 @@ def main()
 	puts
 	
 	# Create a new array of ships 
-	ships = []
-	ships.push(Ship.new("aircraft carrier", 5))
-	ships.push(Ship.new("cruiser", 4))
-	ships.push(Ship.new("destroyer", 3))
-	ships.push(Ship.new("destroyer", 3))
-	ships.push(Ship.new("submarine", 2))
+	ships = [ 
+		Ship.new("aircraft carrier", 5),
+		Ship.new("cruiser", 4),
+		Ship.new("destroyer", 3),
+		Ship.new("destroyer", 3),
+		Ship.new("submarine", 2)
+	]
 	
 	boardmap = Board.new(GRID_SIZE, :green)
 	boardmap.arrange_ships(ships)
