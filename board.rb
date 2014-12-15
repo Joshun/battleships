@@ -1,5 +1,6 @@
 class Board
 	def initialize(size, border_colour)
+		@@MAX_SHIP_ATTEMPTS = 5 #Maximum number of times to try positioning each ship before giving up	
 		@size = size
 		@border_colour = border_colour
 		@tiles = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) { Tile.new } }
@@ -154,7 +155,7 @@ class Board
 			ship_name = ship.get_type
 			ship_size = ship.get_size
 			ship_positioned = false
-			(0...MAX_SHIP_ATTEMPTS).each do |i| #Give up if cannot position ship
+			(0...@@MAX_SHIP_ATTEMPTS).each do |i| #Give up if cannot position ship
 				if try_add_ship(ship, ship_size)
 					ship_positioned = true
 					break

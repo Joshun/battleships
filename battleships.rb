@@ -12,7 +12,6 @@ require_relative "ship"
 require_relative "board"
 
 GRID_SIZE = 10 #Width and height of grid
-MAX_SHIP_ATTEMPTS = 5 #Maximum number of times to try positioning each ship before giving up
 
 def check_valid_position(xcoord, ycoord)
 	if xcoord >= GRID_SIZE || xcoord < 0
