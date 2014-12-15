@@ -74,6 +74,7 @@ def main()
 		Ship.new("submarine", 2)
 	]
 	
+	# Create new Board instance to manage the location of ship and water tiles
 	boardmap = Board.new(GRID_SIZE, :green)
 	boardmap.arrange_ships(ships)
 	boardmap.draw
