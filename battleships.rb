@@ -82,15 +82,15 @@ def main()
 	# (:green is the colour of the grid's coordinate lines)
 	boardmap = Board.new(GRID_SIZE, :green)
 	boardmap.arrange_ships(ships)
-	boardmap.draw
+	boardmap.draw()
 	
 	# Keep requesting input, firing using that input and redrawing the board, until all the ships
 	# have been eliminated.
 	attempts = 0
-	while boardmap.ships_remaining
+	while boardmap.ships_remaining()
 		coordinates = get_input(boardmap)
-		boardmap.fire coordinates, ships
-		boardmap.draw
+		boardmap.fire(coordinates, ships)
+		boardmap.draw()
 		attempts += 1
 	end
 	
