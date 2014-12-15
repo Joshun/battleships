@@ -35,7 +35,6 @@ def get_input(board)
 		coordinates[0] = coordinate_strings[0].to_i
 		coordinates[1] = coordinate_strings[1].to_i
 		
-		hit_already = false
 		valid_coords = check_valid_position(coordinates[0], coordinates[1])
 		
 		# See if string could be converted to integer or not
@@ -45,6 +44,7 @@ def get_input(board)
 			null_string = false
 		end
 		
+		hit_already = false		
 		if valid_coords && ! null_string
 			hit_already = board.get_square_known_status(coordinates)
 		end
