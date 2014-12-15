@@ -48,15 +48,7 @@ class Board
 	def fire(coordinates, ships)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
-		@tiles[y_coord][x_coord].make_known
-		
-		#~ if tile.get_type == :water
-			#~ puts "Miss"
-		#~ else
-			#~ puts "Hit"
-			#~ @ship_squares_hit += 1
-		#~ end
-		
+		@tiles[y_coord][x_coord].make_known		
 		try_fire_ship(coordinates, ships)
 	end
 	
