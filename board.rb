@@ -36,12 +36,7 @@ class Board
 	end
 
 	def arrange_ships(ships)
-		#Get number of ship squares
-		total_ship_squares = 0
-		ships.each do |ship|
-			total_ship_squares += ship.get_size
-		end
-		@ship_squares = total_ship_squares
+		#Get number of ships
 		
 		@ships_left = ships.length
 		
