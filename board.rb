@@ -206,34 +206,11 @@ class Board
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
 		
-		if x_coord > 0 && ! @tiles[y_coord][x_coord - 1].is_known
-			left_square = @tiles[y_coord][x_coord - 1].get_type
-		else
-			left_square = :water
-		end
+		left_square = @tiles[y_coord][x_coord - 1].get_type
+		right_square = @tiles[y_coord][x_coord + 1].get_type
+		top_square = @tiles[y_coord - 1][x_coord].get_type
+		bottom_square = @tiles[y_coord + 1][x_coord].get_type
 		
-		if x_coord < GRID_SIZE - 1 && ! @tiles[y_coord][x_coord + 1].is_known
-			right_square = @tiles[y_coord][x_coord + 1].get_type
-		else
-			right_square = :water
-		end
-		
-		if y_coord > 0 && ! @tiles[y_coord - 1][x_coord].is_known
-			top_square = @tiles[y_coord - 1][x_coord].get_type
-		else
-			top_square = :water
-		end
-		
-		if y_coord < GRID_SIZE - 1 && ! @tiles[y_coord + 1][x_coord].is_known
-			bottom_square = @tiles[y_coord + 1][x_coord].get_type
-		else
-			bottom_square = :water
-		end
-		
-		if left_square == :ship || right_square == :ship || top_square == :ship || bottom_square == :ship
-			return true
-		else
-			return false
-		end
+		return left_square == :ship || right_square == :ship || top_square == :ship || bottom_square == :ship
 	end
 end
