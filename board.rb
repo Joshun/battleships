@@ -3,7 +3,7 @@ class Board
 		@@MAX_SHIP_ATTEMPTS = 5 #Maximum number of times to try positioning each ship before giving up	
 		@size = size
 		@border_colour = border_colour
-		@tiles = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) { Tile.new } }
+		@tiles = Array.new(@size) { Array.new(@size) { Tile.new } }
 		@ships_left = 0
 	end
 
@@ -111,14 +111,14 @@ class Board
 	def try_add_ship(ship, ship_size)
 		direction = horizontal_or_vertical
 		if direction == :horizontal
-			coordinates = get_random_coordinates(GRID_SIZE - ship_size, GRID_SIZE - 1)
+			coordinates = get_random_coordinates(@size - ship_size, @size - 1)
 			if( ! check_clear_row(coordinates[:y], coordinates[:x], ship_size) )
 				return false
 			end
 			add_horizontal_ship(coordinates[:x], coordinates[:x] + ship_size, coordinates[:y])
 			ship.set_squares_horizontal(coordinates[:x], coordinates[:x] + ship_size - 1, coordinates[:y])
 		elsif direction == :vertical
-			coordinates = get_random_coordinates(GRID_SIZE - 1, GRID_SIZE - ship_size)
+			coordinates = get_random_coordinates(@size - 1, @size - ship_size)
 			if( ! check_clear_column(coordinates[:x], coordinates[:y], ship_size) )
 				return false
 			end
@@ -211,7 +211,7 @@ class Board
 			left_square = :water # Can treat edges as water
 		end
 		
-		if x_coord < GRID_SIZE - 1
+		if x_coord < @size - 1
 			right_square = @tiles[y_coord][x_coord + 1].get_type
 		else
 			right_square = :water
@@ -223,7 +223,7 @@ class Board
 			top_square = :water
 		end		
 		
-		if y_coord < GRID_SIZE - 1
+		if y_coord < @size - 1
 			bottom_square = @tiles[y_coord + 1][x_coord].get_type
 		else
 			bottom_square = :water
