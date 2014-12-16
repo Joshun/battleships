@@ -205,10 +205,10 @@ class Board
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
 
-		if x_coord > 0
+		if x_coord > 0 # Only check for left square if not on the edge
 			left_square = @tiles[y_coord][x_coord - 1].get_type
 		else
-			left_square = :water
+			left_square = :water # Can treat edges as water
 		end
 		
 		if x_coord < GRID_SIZE - 1
