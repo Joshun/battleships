@@ -1,3 +1,4 @@
+# Class for Tile object (represents an individual tile on the grid)
 class Tile
 	def initialize()
 		@type = :water

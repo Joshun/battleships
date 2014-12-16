@@ -1,8 +1,9 @@
+# Class for ship object (stores ship position, type and size
 class Ship
 	def initialize(type, size)
 		@type = type
 		@size = size
-		@squares_left = size
+		@squares_left = size # Number of squares (tiles) until sunk
 
 		@position = nil
 		@start_x = nil
@@ -31,6 +32,7 @@ class Ship
 		@column = column
 	end
 	
+	# See if coordinates lie in range of the ship
 	def see_if_hit(coordinates)
 		x_coord = coordinates[0]
 		y_coord = coordinates[1]
@@ -55,6 +57,8 @@ class Ship
 		return :failed
 	end
 
+	# Reduce the number of squares within the ship, return false if there are still squares remaining
+	# and true if all have been destroyed
 	private
 	def reduce_squares
 		if @squares_left > 1

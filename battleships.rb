@@ -28,7 +28,7 @@ end
 def get_input(board)
 	begin
 		print "Coordinates (x,y): "
-		input_string = gets.chomp.delete(" ")
+		input_string = gets.chomp.delete(" ") # Get a new string of user input, remove newline and spaces
 		coordinate_strings = input_string.split(",") # Split input into x and y values by comma separation
 		
 		# If the string length is zero, skip the rest of the code block and try again
