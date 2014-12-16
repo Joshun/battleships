@@ -61,7 +61,7 @@ class Ship
 	# and true if all have been destroyed
 	private
 	def ship_sunk
-		if @squares_left > 1
+		if @squares_left >= 1
 			@squares_left -= 1
 			return false
 		else
