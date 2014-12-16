@@ -39,7 +39,7 @@ class Ship
 		
 		if @position == :horizontal		
 			if (x_coord >= @start_x) && (x_coord <= @end_x ) && (y_coord == @row)
-				if reduce_squares
+				if ship_sunk
 					return :sunk
 				else
 					return :hit
@@ -47,7 +47,7 @@ class Ship
 			end
 		else
 			if (y_coord >= @start_y) && (y_coord <= @end_y) && (x_coord == @column)
-				if reduce_squares
+				if ship_sunk
 					return :sunk
 				else
 					return :hit
@@ -60,7 +60,7 @@ class Ship
 	# Reduce the number of squares within the ship, return false if there are still squares remaining
 	# and true if all have been destroyed
 	private
-	def reduce_squares
+	def ship_sunk
 		if @squares_left > 1
 			@squares_left -= 1
 			return false
