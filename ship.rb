@@ -63,9 +63,8 @@ class Ship
 	def ship_sunk
 		if @squares_left >= 1
 			@squares_left -= 1
-			return false
-		else
-			return true
+			puts @squares_left
+			return @squares_left == 0
 		end
 	end	
 end
