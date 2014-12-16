@@ -30,6 +30,11 @@ def get_input(board)
 		print "Coordinates (x,y): "
 		input_string = gets.chomp.delete(" ")
 		coordinate_strings = input_string.split(",") # Split input into x and y values by comma separation
+		
+		# If the string length is zero, skip the rest of the code block and try again
+		if coordinate_strings.length == 0
+			next
+		end
 
 		coordinates = Array.new
 		coordinates[0] = coordinate_strings[0].to_i
