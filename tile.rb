@@ -2,6 +2,7 @@
 class Tile
 	def initialize()
 		@type = :water
+		#~ @known = false
 		@known = false
 	end
 	def make_known()

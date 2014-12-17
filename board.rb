@@ -87,7 +87,7 @@ class Board
 	def check_clear_row(row, start_column, size)
 		end_column = start_column + size
 		(start_column...end_column).each do |index|
-			if @tiles[index][row].get_type != :water
+			if @tiles[row][index].get_type != :water
 				return false
 			end
 		end
@@ -99,7 +99,7 @@ class Board
 	def check_clear_column(column, start_row, size)
 		end_row = start_row + size
 		(start_row...end_row).each do |index|
-			if @tiles[column][index].get_type != :water
+			if @tiles[index][column].get_type != :water
 				return false
 			end
 		end

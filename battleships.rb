@@ -49,7 +49,7 @@ def get_input(board)
 			null_string = false
 		end
 		
-		hit_already = false		
+		hit_already = false
 		if valid_coords && ! null_string
 			hit_already = board.get_square_known_status(coordinates)
 		end
